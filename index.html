@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-section">
                     <label for="cliente">CLIENTE:</label>
-                    <input type="text" id="cliente" name="cliente" value="XXXXXXXXXXX" class="cliente-input">
+<textarea id="cliente" name="cliente" class="cliente-textarea" rows="2">XXXXXXXXXXX</textarea>
                 </div>
                 <div class="form-section">
                     <label for="fecha">FECHA:</label>
@@ -33,12 +33,12 @@
             <h3>SISTEMA DAVANTIS</h3>
             <label for="conexion" class="custom-file-label">CONEXIÓN BIDIRECCIONAL:</label>
             <input type="file" id="conexion" accept="image/*" multiple class="file-input">
-            <input type="text" id="conexion" value="XXXXXX">
+            <textarea>XXXXXXX</textarea>
             <div id="previewconexion"></div>
             
-            <label for="conexion" class="custom-file-label">VISTA DE CÁMARAS:</label>
+            <label for="vista" class="custom-file-label">VISTA DE CÁMARAS:</label>
             <input type="file" id="vista" accept="image/*" multiple class="file-input">
-            <input type="text" id="vista" value="XXXXXX">
+            <textarea>XXXXXXX</textarea>
             <div id="previewvista"></div>
 
             <label for="captura" class="custom-file-label">CAPTURA DE PANTALLA BOLDNET ÚLTIMOS EVENTOS CON DAVANTIS:</label>
@@ -46,7 +46,9 @@
             <div id="previewcaptura"></div>
 
             <label for="info" class="custom-file-label">INFO TEAMVIEWER</label>
-            <input type="text" id="info" value="XXXXXXXXX">
+            <input type="file" id="info" accept="image/*" multiple class="file-input">
+            <textarea>XXXXXXX</textarea>
+            <div id="previewinfo"></div>
 
             <label for="revisar" class="custom-file-label">REVISAR EQUIPO CCTV CONECTADO A DAVANTIS (VISTA EN DIRECTO, VISION NOCTURNA, GRABACIONES, FEHCA Y HORA):</label>
             <input type="file" id="revisar" accept="image/*" multiple class="file-input">
@@ -56,8 +58,10 @@
             <input type="file" id="revision" accept="image/*" multiple class="file-input">
             <div id="previewrevision"></div>
 
-            <h3>OBSERVACIONES:</h3>
+            <label for="observaciones" class="custom-file-label">OBSERVACIONES:</label>
             <textarea>XXXXXXX</textarea>
+            <input type="file" id="observaciones" accept="image/*" multiple class="file-input">
+            <div id="previewobservaciones"></div>
 
             <h3>RECOMENDACIONES:</h3>
             <textarea>LIMPIEZA DE CÁMARAS PARA UNA BUENA VISIÓN NOCTURNA</textarea>

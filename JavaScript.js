@@ -18,12 +18,20 @@ document.getElementById('captura').addEventListener('change', function (e) {
     mostrarImagenesEnDiv(e.target.files, 'previewcaptura');
 });
 
+document.getElementById('info').addEventListener('change', function (e) {
+    mostrarImagenesEnDiv(e.target.files, 'previewinfo');
+});
+
 document.getElementById('revisar').addEventListener('change', function (e) {
     mostrarImagenesEnDiv(e.target.files, 'previewrevisar');
 });
 
 document.getElementById('revision').addEventListener('change', function (e) {
     mostrarImagenesEnDiv(e.target.files, 'previewrevision');
+});
+
+document.getElementById('observaciones').addEventListener('change', function (e) {
+    mostrarImagenesEnDiv(e.target.files, 'previewobservaciones');
 });
 
 
