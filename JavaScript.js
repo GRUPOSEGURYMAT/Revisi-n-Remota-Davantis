@@ -22,8 +22,9 @@ document.getElementById('info').addEventListener('change', function (e) {
     mostrarImagenesEnDiv(e.target.files, 'previewinfo');
 });
 
+// Aquí reemplazamos el listener para "revisar" para que muestre imagen + botón borrar
 document.getElementById('revisar').addEventListener('change', function (e) {
-    mostrarImagenesEnDiv(e.target.files, 'previewrevisar');
+    mostrarImagenesConBorrar(e.target.files, 'previewrevisar');
 });
 
 document.getElementById('revision').addEventListener('change', function (e) {
@@ -34,7 +35,7 @@ document.getElementById('observaciones').addEventListener('change', function (e)
     mostrarImagenesEnDiv(e.target.files, 'previewobservaciones');
 });
 
-
+// Función que usas para mostrar imágenes normales (sin botón borrar)
 function mostrarImagenesEnDiv(files, divId) {
     const contenedor = document.getElementById(divId);
     contenedor.innerHTML = ''; // Limpia el contenedor antes de mostrar nuevas imágenes
@@ -56,6 +57,60 @@ function mostrarImagenesEnDiv(files, divId) {
     });
 }
 
+// NUEVA función para mostrar imágenes con botón "X" para borrar
+function mostrarImagenesConBorrar(files, divId) {
+    const contenedor = document.getElementById(divId);
+    contenedor.innerHTML = ''; // Limpiar antes
+
+    Array.from(files).forEach((file, index) => {
+        if (!file.type.startsWith('image/')) return;
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.style.display = 'inline-block';
+            wrapper.style.margin = '5px';
+
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.style.maxWidth = '150px';
+            img.style.maxHeight = '150px';
+            img.style.display = 'block';
+            img.style.border = '1px solid #ccc';
+            img.style.borderRadius = '4px';
+
+            const btnBorrar = document.createElement('button');
+            btnBorrar.textContent = '×';
+            btnBorrar.style.position = 'absolute';
+            btnBorrar.style.top = '2px';
+            btnBorrar.style.right = '2px';
+            btnBorrar.style.background = 'rgba(0,0,0,0.6)';
+            btnBorrar.style.color = 'white';
+            btnBorrar.style.border = 'none';
+            btnBorrar.style.borderRadius = '50%';
+            btnBorrar.style.width = '20px';
+            btnBorrar.style.height = '20px';
+            btnBorrar.style.cursor = 'pointer';
+            btnBorrar.title = "Eliminar imagen";
+
+            // ¡Aquí añades la clase!
+            btnBorrar.classList.add('btn-borrar-imagen');
+
+            btnBorrar.addEventListener('click', () => {
+                wrapper.remove();
+                // Nota: Esto borra solo la imagen del preview, no del input file
+            });
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(btnBorrar);
+            contenedor.appendChild(wrapper);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+
 function reemplazarTextareasPorTexto() {
     const textareas = document.querySelectorAll('textarea');
     textareas.forEach((textarea) => {
@@ -68,7 +123,6 @@ function reemplazarTextareasPorTexto() {
         textarea.parentNode.replaceChild(div, textarea);
     });
 
-    // Aplica sangría a los <p> que empiezan en mayúscula
     document.querySelectorAll('.contenidoPDF p').forEach(p => {
         const texto = p.textContent.trim();
         if (texto && texto[0] === texto[0].toUpperCase() && /[A-ZÁÉÍÓÚÑ]/.test(texto[0])) {
@@ -76,7 +130,6 @@ function reemplazarTextareasPorTexto() {
         }
     });
 
-    // Asegura que los inputs no tengan borde ni fondo
     document.querySelectorAll('input[type="text"], input[type="date"]').forEach(input => {
         input.style.border = 'none';
         input.style.background = 'none';
@@ -88,7 +141,11 @@ function descargarPDF() {
         const boton = document.querySelector('#descargarPDF');
         boton.style.display = 'none';
 
-        // Oculta los botones de subir imagen
+
+        document.querySelectorAll('.btn-borrar-imagen').forEach(btn => {
+    btn.style.display = 'none';
+});
+
         const uploadButtons = document.querySelectorAll('.file-upload-btn');
         uploadButtons.forEach(btn => btn.style.display = 'none');
 
@@ -133,16 +190,17 @@ function descargarPDF() {
             })
             .save()
             .then(() => {
-                // Restaura la visibilidad de los botones
                 boton.style.display = 'inline-block';
                 uploadButtons.forEach(btn => btn.style.display = 'inline-block');
+                document.querySelectorAll('.btn-borrar-imagen').forEach(btn => {
+        btn.style.display = 'inline-block';
+    });
             });
     } catch (error) {
         console.error('Error al generar el PDF:', error);
         alert('Ocurrió un error al generar el PDF. Revisa la consola para más detalles.');
         const boton = document.querySelector('#descargarPDF');
         boton.style.display = 'inline-block';
-        // Restaura los botones en caso de error
         document.querySelectorAll('.file-upload-btn').forEach(btn => btn.style.display = 'inline-block');
     }
 }
